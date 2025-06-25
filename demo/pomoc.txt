@@ -1,0 +1,13 @@
+spis funkcji:
+
+wyzn 	(nazwa_m)
+odwroc	(nazwa_m)
+zapisz  (nazwa_m) // nazwa macierzy bedzie takze nazwa pliku
+wczytaj (nazwa_pliku)
+losowa	(nazwa_m) lub losowa (x,y)
+zerowa	(nazwa_m) lub zerowa (x,y)
+nazwa_m(x,y) - dostep do elementu o zadanych wspl
+
+operatory *,+,- oraz ich skrocone wersje +=,*=,-=
+
+np a*=a, B=A*B itd.
