@@ -37,5 +37,19 @@ int main() {
         }
     }
 
+    // testy operacji na macierzach
+    Matrix* mat = create_matrix(2, 3);
+    
+    double z = 1.0;
+    for (unsigned i = 0; i < mat->rows; ++i) {
+        for (unsigned j = 0; j < mat->cols; ++j) {
+            mat->mtrx[i][j] = (i + 1) * (j + 1) * z;
+        }
+
+        z *= -1.0; // zmiana znaku
+    }
+
+    print_matrix(mat);
+
     return 0;
 }
