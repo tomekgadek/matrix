@@ -50,6 +50,14 @@ int main() {
     }
 
     print_matrix(mat);
+    free_matrix(mat);
 
+    printf("\n");
+
+    // macierz zerowa
+    Matrix* zero_mat = create_zero_matrix(3, 3);
+    print_matrix(zero_mat);
+    free_matrix(zero_mat);
+    
     return 0;
 }

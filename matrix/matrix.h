@@ -13,8 +13,9 @@ struct matrix {
 
 typedef struct matrix Matrix;
 
-// Deklaracje funkcji operujących na macierzy
 Matrix* create_matrix(unsigned rows, unsigned cols);
+
+Matrix* create_zero_matrix(unsigned rows, unsigned cols);
 
 void print_matrix(const Matrix* mat);
 

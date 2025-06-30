@@ -22,10 +22,21 @@ Matrix* create_matrix(unsigned rows, unsigned cols) {
             for (unsigned j = 0; j < i; ++j) {
                 free(mat->mtrx[j]);
             }
-            
+
             free(mat->mtrx);
             free(mat);
             return NULL;
+        }
+    }
+    return mat;
+}
+
+Matrix* create_zero_matrix(unsigned rows, unsigned cols) {
+    Matrix* mat = create_matrix(rows, cols);
+    if (!mat) return NULL;
+    for (unsigned i = 0; i < rows; ++i) {
+        for (unsigned j = 0; j < cols; ++j) {
+            mat->mtrx[i][j] = 0.0;
         }
     }
     return mat;
