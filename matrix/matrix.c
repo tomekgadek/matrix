@@ -42,6 +42,19 @@ Matrix* create_zero_matrix(unsigned rows, unsigned cols) {
     return mat;
 }
 
+Matrix* create_random_matrix(unsigned rows, unsigned cols) {
+    Matrix* mat = create_matrix(rows, cols);
+    if (!mat) return NULL;
+
+    for (unsigned i = 0; i < rows; ++i) {
+        for (unsigned j = 0; j < cols; ++j) {
+            // Losowe wartości od -1000000.0 do +1000000.0
+            mat->mtrx[i][j] = ((double)(rand() % 2000001) - 1000000.0);
+        }
+    }
+    return mat;
+}
+
 void print_matrix(const Matrix* mat) {
     if (!mat) return;
     for (unsigned i = 0; i < mat->rows; ++i) {

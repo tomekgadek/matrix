@@ -58,6 +58,13 @@ int main() {
     Matrix* zero_mat = create_zero_matrix(3, 3);
     print_matrix(zero_mat);
     free_matrix(zero_mat);
+
+    printf("\n");
+
+    // macierz losowa
+    Matrix* random_mat = create_random_matrix(3, 3);
+    print_matrix(random_mat);
+    free_matrix(random_mat);
     
     return 0;
 }
