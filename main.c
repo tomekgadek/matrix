@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include "matrix/matrix.h"
 #include "gui/gui.h"
@@ -49,6 +50,13 @@ int main() {
         z *= -1.0; // zmiana znaku
     }
 
+    double det = determinant(mat);
+    if (isnan(det)) {
+        printf("Nie można policzyć wyznacznika!\n");
+    } else {
+        printf("Wyznacznik: %lf\n", det);
+    }
+
     print_matrix(mat);
     free_matrix(mat);
 
@@ -65,6 +73,7 @@ int main() {
     Matrix* random_mat = create_random_matrix(3, 3);
     print_matrix(random_mat);
     free_matrix(random_mat);
+
     
     return 0;
 }

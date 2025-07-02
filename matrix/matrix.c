@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "matrix.h"
 
 Matrix* create_matrix(unsigned rows, unsigned cols) {
@@ -54,6 +55,39 @@ Matrix* create_random_matrix(unsigned rows, unsigned cols) {
     }
     return mat;
 }
+
+double determinant(const Matrix *mat) {
+    if (!mat || mat->rows != mat->cols) {
+        fprintf(stderr, "Błąd: macierz NULL lub niekwadratowa w determinant().\n");
+        return NAN;  // specjalna wartość oznaczająca „nie liczba”
+    }
+
+    unsigned n = mat->rows;
+
+    if (n == 1) {
+        return mat->mtrx[0][0];
+    }
+
+    if (n == 2) {
+        return mat->mtrx[0][0] * mat->mtrx[1][1] - mat->mtrx[0][1] * mat->mtrx[1][0];
+    }
+
+    double det = 0.0;
+    for (unsigned col = 0; col < n; ++col) {
+        Matrix *minor = create_submatrix(mat, 0, col);
+        if (!minor) {
+            fprintf(stderr, "Błąd alokacji minor.\n");
+            return NAN;
+        }
+
+        double cofactor = ((col % 2 == 0) ? 1.0 : -1.0) * mat->mtrx[0][col] * determinant(minor);
+        det += cofactor;
+        free_matrix(minor);
+    }
+
+    return det;
+}
+
 
 void print_matrix(const Matrix* mat) {
     if (!mat) return;

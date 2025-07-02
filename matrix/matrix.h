@@ -19,6 +19,8 @@ Matrix* create_zero_matrix(unsigned rows, unsigned cols);
 
 Matrix* create_random_matrix(unsigned rows, unsigned cols);
 
+double determinant(const Matrix* mat);
+
 void print_matrix(const Matrix* mat);
 
 void free_matrix(Matrix* mat);
