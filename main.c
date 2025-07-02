@@ -74,6 +74,23 @@ int main() {
     print_matrix(random_mat);
     free_matrix(random_mat);
 
+    // wyznacznik macierzy
+    Matrix* square_mat = create_matrix(4, 4);
+    // Wprowadzenie danych do macierzy A
+    double data[4][4] = {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 1, 2, 3},
+        {4, 5, 6, 0}
+    };
+
+    for (unsigned i = 0; i < 4; ++i) {
+        for (unsigned j = 0; j < 4; ++j) {
+            square_mat->mtrx[i][j] = data[i][j];
+        }
+    }
+
+    printf("Wyznacznik macierzy 4x4: %lf \n", determinant(square_mat));
     
     return 0;
 }

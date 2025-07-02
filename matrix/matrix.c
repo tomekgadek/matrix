@@ -57,32 +57,39 @@ Matrix* create_random_matrix(unsigned rows, unsigned cols) {
 }
 
 double determinant(const Matrix *mat) {
+    // Sprawdzenie czy macierz istnieje i czy jest kwadratowa
     if (!mat || mat->rows != mat->cols) {
-        fprintf(stderr, "Błąd: macierz NULL lub niekwadratowa w determinant().\n");
-        return NAN;  // specjalna wartość oznaczająca „nie liczba”
+        return NAN;
     }
-
+    
     unsigned n = mat->rows;
-
+    // Wyznacznik macierzy 1x1 to jej jedyny element
     if (n == 1) {
         return mat->mtrx[0][0];
     }
-
+    // Wyznacznik macierzy 2x2 obliczamy bezpośrednio
     if (n == 2) {
         return mat->mtrx[0][0] * mat->mtrx[1][1] - mat->mtrx[0][1] * mat->mtrx[1][0];
     }
 
     double det = 0.0;
-    for (unsigned col = 0; col < n; ++col) {
-        Matrix *minor = create_submatrix(mat, 0, col);
-        if (!minor) {
-            fprintf(stderr, "Błąd alokacji minor.\n");
-            return NAN;
+    // Rozwinięcie Laplace’a względem pierwszego wiersza
+    for (unsigned k = 0; k < n; ++k) {
+        // Tworzenie macierzy minor (pomocniczej) bez pierwszego wiersza i k-tej kolumny
+        Matrix* minor = create_matrix(n - 1, n - 1);
+        if (!minor) return 0.0;
+        for (unsigned i = 1; i < n; ++i) {
+            unsigned colIdx = 0;
+            for (unsigned j = 0; j < n; ++j) {
+                if (j == k) continue; // Pomijamy k-tą kolumnę
+                minor->mtrx[i - 1][colIdx] = mat->mtrx[i][j];
+                ++colIdx;
+            }
         }
-
-        double cofactor = ((col % 2 == 0) ? 1.0 : -1.0) * mat->mtrx[0][col] * determinant(minor);
+        // Obliczanie kofaktora i rekurencyjne wywołanie determinanty minora
+        double cofactor = ((k % 2 == 0) ? 1.0 : -1.0) * mat->mtrx[0][k] * determinant(minor);
         det += cofactor;
-        free_matrix(minor);
+        free_matrix(minor); // Zwolnienie pamięci minora
     }
 
     return det;
