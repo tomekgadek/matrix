@@ -95,6 +95,52 @@ double determinant(const Matrix *mat) {
     return det;
 }
 
+Matrix* invert_matrix(const Matrix* mat) {
+    // Sprawdzenie czy macierz istnieje i jest kwadratowa
+    if (!mat || mat->rows != mat->cols) {
+        return NULL;
+    }
+
+    unsigned n = mat->rows;
+    Matrix* inv = create_matrix(n, n);
+    if (!inv) return NULL;
+
+    double det = determinant(mat);
+    if (fabs(det) < 1e-9) { // Sprawdzenie czy macierz jest odwracalna
+        free_matrix(inv);
+        return NULL;
+    }
+
+    // Obliczanie macierzy odwrotnej przez macierz dopełnień i transpozycję
+    for (unsigned i = 0; i < n; ++i) {
+        for (unsigned j = 0; j < n; ++j) {
+            // Tworzenie minora
+            Matrix* minor = create_matrix(n - 1, n - 1);
+            if (!minor) {
+                free_matrix(inv);
+                return NULL;
+            }
+            
+            unsigned minorRow = 0, minorCol = 0;
+            for (unsigned row = 0; row < n; ++row) {
+                if (row == i) continue; // Pomijamy wiersz i
+                minorCol = 0;
+                for (unsigned col = 0; col < n; ++col) {
+                    if (col == j) continue; // Pomijamy kolumnę j
+                    minor->mtrx[minorRow][minorCol++] = mat->mtrx[row][col];
+                }
+                minorRow++;
+            }
+
+            // Kofaktor
+            double cofactor = ((i + j) % 2 == 0 ? 1.0 : -1.0) * determinant(minor);
+            inv->mtrx[j][i] = cofactor / det; // Transponowanie
+            free_matrix(minor); // Zwolnienie pamięci minora
+        }
+    }
+
+    return inv;
+}
 
 void print_matrix(const Matrix* mat) {
     if (!mat) return;

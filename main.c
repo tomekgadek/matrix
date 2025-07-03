@@ -91,6 +91,27 @@ int main() {
     }
 
     printf("Wyznacznik macierzy 4x4: %lf \n", determinant(square_mat));
+
+    // test macierzy odwrotnej
+    printf("\n");
+
+    Matrix *A = create_matrix(2, 2);
+    A->mtrx[0][0] = 1; A->mtrx[0][1] = 2;
+    A->mtrx[1][0] = 3; A->mtrx[1][1] = 4;
+
+    printf("Macierz A:\n");
+    print_matrix(A);
+
+    Matrix *Ainv = invert_matrix(A);
+    if (Ainv) {
+        printf("\nMacierz odwrotna A^-1:\n");
+        print_matrix(Ainv);
+        free_matrix(Ainv);
+    } else {
+        printf("\nMacierz nie ma odwrotności.\n");
+    }
+
+    free_matrix(A);
     
     return 0;
 }
