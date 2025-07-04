@@ -111,6 +111,26 @@ int main() {
         printf("\nMacierz nie ma odwrotności.\n");
     }
 
+    // Dodawanie dwóch macierzy
+    Matrix *B = create_matrix(2, 2);
+    B->mtrx[0][0] = 5; B->mtrx[0][1] = 6;
+    B->mtrx[1][0] = 7; B->mtrx[1][1] = 8;
+
+    printf("\nMacierz A:\n");
+    print_matrix(A);
+    printf("\nMacierz B:\n");
+    print_matrix(B);
+
+    Matrix *C = add_matrices(A, B);
+    if (C) {
+        printf("\nA + B:\n");
+        print_matrix(C);
+        free_matrix(C);
+    } else {
+        printf("\nNie można dodać macierzy A i B (różne wymiary).\n");
+    }
+
+    free_matrix(B);
     free_matrix(A);
     
     return 0;

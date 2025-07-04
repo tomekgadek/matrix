@@ -23,6 +23,8 @@ double determinant(const Matrix* mat);
 
 Matrix* invert_matrix(const Matrix* mat);
 
+Matrix* add_matrices(const Matrix* mat1, const Matrix* mat2);
+
 void print_matrix(const Matrix* mat);
 
 void free_matrix(Matrix* mat);
