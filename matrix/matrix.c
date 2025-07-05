@@ -161,6 +161,25 @@ Matrix* add_matrices(const Matrix* mat1, const Matrix* mat2) {
     return result;
 }
 
+Matrix* subtract_matrices(const Matrix* mat1, const Matrix* mat2) {
+    if (!mat1 || !mat2 || mat1->rows != mat2->rows || mat1->cols != mat2->cols) {
+        return NULL;
+    }
+
+    Matrix* result = create_matrix(mat1->rows, mat1->cols);
+    if (!result) {
+        return NULL;
+    }
+
+    for (unsigned i = 0; i < mat1->rows; ++i) {
+        for (unsigned j = 0; j < mat1->cols; ++j) {
+            result->mtrx[i][j] = mat1->mtrx[i][j] - mat2->mtrx[i][j];
+        }
+    }
+
+    return result;
+}
+
 void print_matrix(const Matrix* mat) {
     if (!mat) return;
     for (unsigned i = 0; i < mat->rows; ++i) {

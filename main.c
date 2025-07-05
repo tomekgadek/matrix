@@ -130,6 +130,15 @@ int main() {
         printf("\nNie można dodać macierzy A i B (różne wymiary).\n");
     }
 
+    Matrix *D = subtract_matrices(A, B);
+    if (C) {
+        printf("\nA - B:\n");
+        print_matrix(D);
+        free_matrix(D);
+    } else {
+        printf("\nNie można odjąć macierzy A i B (różne wymiary).\n");
+    }
+
     free_matrix(B);
     free_matrix(A);
     
