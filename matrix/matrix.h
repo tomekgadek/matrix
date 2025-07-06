@@ -33,4 +33,6 @@ void free_matrix(Matrix* mat);
 
 void matrix_message();
 
+double get_element(const Matrix* mat, unsigned row, unsigned col);
+
 #endif

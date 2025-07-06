@@ -206,3 +206,11 @@ void free_matrix(Matrix* mat) {
 void matrix_message() {
     printf("Load matrix module. \n");
 }
+
+double get_element(const Matrix* mat, unsigned row, unsigned col) {
+    if (!mat || row <= 0 || col <= 0 || row > mat->rows || col > mat->cols) {
+        return NAN; // Zwracamy NaN jeśli indeksy są nieprawidłowe
+    }
+    
+    return mat->mtrx[row - 1][col - 1];
+}

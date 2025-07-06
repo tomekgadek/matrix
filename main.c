@@ -141,6 +141,22 @@ int main() {
 
     free_matrix(B);
     free_matrix(A);
+
+    // Przykład użycia get_element
+    Matrix *E = create_matrix(3, 3);
+    for (unsigned i = 0; i < 3; ++i) {
+        for (unsigned j = 0; j < 3; ++j) {
+            E->mtrx[i][j] = i * 3 + j + 1;
+        }
+    }
+    printf("\nMacierz E:\n");
+    print_matrix(E);
+
+    unsigned row = 3, col = 4; // przykładowe indeksy (drugi wiersz, trzecia kolumna)
+    double elem = get_element(E, row, col);
+    printf("Element E[%u][%u] = %lf\n", row, col, elem);
+
+    free_matrix(E);
     
     return 0;
 }
