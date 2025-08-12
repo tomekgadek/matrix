@@ -59,3 +59,7 @@ Czyszczenie plików wynikowych
 ```bash
 make clean
 ```
+
+### Opis funkcjonalności
+
+> to be continued...
