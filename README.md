@@ -4,9 +4,9 @@ W ramach projektu należy:
 
 1. Ograniczenie statycznie alokowanego kodu tam, gdzie jest to wskazane (czyli na pewno, przekazwyanie wszelkich macierzy do funkcji, alokacja macierzy o odpowiednim wymiarze
 zamiast marnowania miejsca na macierz o odpowiednio dużym rozmiarze etc.)
-2. Dodanie funkcjonalności listy dwukierunkowej struktur (dodać pliki `mylist.c` i `mylist.h`) – funkcjonalnośc zostanie użyta to przechowywania zmiennych.
+2. Dodanie funkcjonalności listy dwukierunkowej struktur. Funkcjonalnośc zostanie użyta to przechowywania zmiennych.
 
-    Propozycja struktury:
+Propozycja struktury:
 
     ```c
     struct matrix {
@@ -60,6 +60,19 @@ Czyszczenie plików wynikowych
 make clean
 ```
 
-### Opis funkcjonalności
+### Brakujące funkcjonalności
 
-> to be continued...
++ Dostęp do elementów macierzy: brak obsługi składni nazwa_m(x,y). Obecnie nie można pobrać ani wyświetlić konkretnej wartości komórki macierzy przez CLI.
++ Operatory złożone: brak obsługi operatorów +=, -= oraz *=. Obecnie obsługiwane są tylko proste przypisania typu C = A + B.
++ Syntaktyka losowa(nazwa_m): obecnie funkcja losowa działa tylko jako losowa(x,y) wewnątrz wyrażenia (np. A = losowa(3,3)). brak obsługi formy, w której podaje się nazwę istniejącej macierzy, aby wypełnić ją losowymi danymi.
++ Syntaktyka zerowa(nazwa_m): podobnie jak wyżej, obsługiwane jest tylko zerowa(x,y) jako generator nowej macierzy.
++ Działania na tej samej macierzy (np. a = a * a): choć parser technicznie to obsłuży, obecna implementacja w `cli.c`
+ tworzy kopię macierzy przy prostym przypisaniu, ale niekoniecznie optymalnie zarządza pamięcią w przypadku operacji A = A * B (może dojść do wycieku lub błędu, jeśli nie zwolnimy starej macierzy A przed przypisaniem nowej).
+
+Podsumowując, najważniejsze braki to:
+
++ Dostęp do elementu macierzy (np. A(x,y))
++ Operatory złożone (np. +=, -=, *=)
++ Syntaktyka losowa(nazwa_m)
++ Syntaktyka zerowa(nazwa_m)
++ Działania na tej samej macierzy (np. a = a * a)

@@ -6,33 +6,39 @@
  * Dane przechowywane są jako dynamiczna tablica wskaźników do wierszy.
  */
 struct matrix {
-    double **mtrx;  // wskaźnik do dynamicznej tablicy wierszy (każdy to double*)
-    unsigned rows;  // liczba wierszy w macierzy
-    unsigned cols;  // liczba kolumn w macierzy
+  double **mtrx; // wskaźnik do dynamicznej tablicy wierszy (każdy to double*)
+  unsigned rows; // liczba wierszy w macierzy
+  unsigned cols; // liczba kolumn w macierzy
 };
 
 typedef struct matrix Matrix;
 
-Matrix* create_matrix(unsigned rows, unsigned cols);
+Matrix *create_matrix(unsigned rows, unsigned cols);
 
-Matrix* create_zero_matrix(unsigned rows, unsigned cols);
+Matrix *create_zero_matrix(unsigned rows, unsigned cols);
 
-Matrix* create_random_matrix(unsigned rows, unsigned cols);
+Matrix *create_random_matrix(unsigned rows, unsigned cols);
 
-double determinant(const Matrix* mat);
+double determinant(const Matrix *mat);
 
-Matrix* invert_matrix(const Matrix* mat);
+Matrix *invert_matrix(const Matrix *mat);
 
-Matrix* add_matrices(const Matrix* mat1, const Matrix* mat2);
+Matrix *add_matrices(const Matrix *mat1, const Matrix *mat2);
 
-Matrix* subtract_matrices(const Matrix* mat1, const Matrix* mat2);
+Matrix *subtract_matrices(const Matrix *mat1, const Matrix *mat2);
 
-void print_matrix(const Matrix* mat);
+Matrix *multiply_matrices(const Matrix *mat1, const Matrix *mat2);
 
-void free_matrix(Matrix* mat);
+void print_matrix(const Matrix *mat);
+
+void free_matrix(Matrix *mat);
 
 void matrix_message();
 
-double get_element(const Matrix* mat, unsigned row, unsigned col);
+double get_element(const Matrix *mat, unsigned row, unsigned col);
+
+void save_matrix(const Matrix *mat, const char *filename);
+
+Matrix *load_matrix(const char *filename);
 
 #endif
