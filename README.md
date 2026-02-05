@@ -6,7 +6,7 @@ W ramach projektu należy:
 zamiast marnowania miejsca na macierz o odpowiednio dużym rozmiarze etc.)
 2. Dodanie funkcjonalności listy dwukierunkowej struktur. Funkcjonalnośc zostanie użyta to przechowywania zmiennych.
 
-Propozycja struktury:
+    Propozycja struktury:
 
     ```c
     struct matrix {
@@ -22,6 +22,7 @@ Propozycja struktury:
         struct variable *prev;  // wskaźnik na poprzedni element listy
     };
     ```
+
     Proponuję skalary wczytywać do tablicy o wymiarach 1x1 (notabene tak, jak to robi matlab) – znacznie mniej pisania kodu. Jeżeli ktoś bardzo chce, może użyc do tego celu unii, która encapsuluje strukturę macierz jak i zwykłą zmienną skalar. Następnie, zaimplementować funkcje dodające element (na początek, na koniec, oraz na i-tej pozycji), usuwające element(ostatni, początkowy oraz ity) oraz wyszukujące elementy zapisane na liście. Podobnie ma się rzecz w przypadku struktury macierz, warto napisać funkcje, które alokują macierz dla pola `**mtrx`, zwalniają po użyciu, itp.
 
 3. Dodanie prostych funkcjonalności związanych z operacjami macierzowymi: dodawanie macierzy, odejmowanie, mnożenie. Wyszukiwanie maksymalnego i minimalnego elementu. Wyznaczanie normy i śladu macierzy.
