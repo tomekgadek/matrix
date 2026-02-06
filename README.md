@@ -2,8 +2,7 @@
 
 W ramach projektu należy:
 
-1. Ograniczenie statycznie alokowanego kodu tam, gdzie jest to wskazane (czyli na pewno, przekazwyanie wszelkich macierzy do funkcji, alokacja macierzy o odpowiednim wymiarze
-zamiast marnowania miejsca na macierz o odpowiednio dużym rozmiarze etc.)
+1. Ograniczenie statycznie alokowanego kodu tam, gdzie jest to wskazane (czyli na pewno, przekazwyanie wszelkich macierzy do funkcji, alokacja macierzy o odpowiednim wymiarze zamiast marnowania miejsca na macierz o odpowiednio dużym rozmiarze etc.)
 2. Dodanie funkcjonalności listy dwukierunkowej struktur. Funkcjonalnośc zostanie użyta to przechowywania zmiennych.
 
     Propozycja struktury:
