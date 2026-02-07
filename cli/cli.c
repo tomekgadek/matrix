@@ -14,7 +14,7 @@
 
 static Variable *var_list = NULL;
 
-// --- Private Utilities ---
+// --- Prywatne funkcje pomocnicze ---
 
 static void trim(char *str) {
   char *start = str;
@@ -133,7 +133,7 @@ static Matrix *eval_expression(char *expr) {
 
   Variable *v = find_variable(var_list, expr);
   if (v) {
-    // Return a copy to avoid shared matrix ownership issues
+    // Zwracamy kopię, aby uniknąć problemów ze współdzieleniem wskaźnika na macierz
     Matrix *copy = create_matrix(v->mtrx->rows, v->mtrx->cols);
     for (unsigned i = 0; i < copy->rows; i++) {
       for (unsigned j = 0; j < copy->cols; j++) {
@@ -146,7 +146,7 @@ static Matrix *eval_expression(char *expr) {
   return NULL;
 }
 
-// --- Handler Functions ---
+// --- Funkcje obsługujące polecenia ---
 
 static void handle_assignment(char *label, char *expr) {
   trim(label);
@@ -211,6 +211,28 @@ static void handle_load(char *line) {
   }
 }
 
+static int handle_element_access(char *line) {
+  char label[VARIABLE_LABEL_SIZE];
+  unsigned row, col;
+  if (sscanf(line, "%[^(]( %u , %u )", label, &row, &col) == 3 ||
+      sscanf(line, "%[^(](%u,%u)", label, &row, &col) == 3 ||
+      sscanf(line, "%[^(] (%u,%u)", label, &row, &col) == 3 ||
+      sscanf(line, "%[^(](%u , %u)", label, &row, &col) == 3) {
+    trim(label);
+    Variable *v = find_variable(var_list, label);
+    if (v) {
+      double val = get_element(v->mtrx, row, col);
+      if (isnan(val)) {
+        printf("Nieprawidłowe indeksy (%u,%u) dla macierzy '%s'\n", row, col, label);
+      } else {
+        printf("%s(%u,%u) = %lf\n", label, row, col, val);
+      }
+      return 1;
+    }
+  }
+  return 0;
+}
+
 static void execute_command(char *line) {
   trim(line);
   if (strlen(line) == 0)
@@ -246,6 +268,10 @@ static void execute_command(char *line) {
     return;
   }
 
+  if (handle_element_access(line)) {
+    return;
+  }
+
   Variable *v = find_variable(var_list, line);
   if (v) {
     print_matrix(v->mtrx);
@@ -255,7 +281,7 @@ static void execute_command(char *line) {
   printf("'%s' - Nieznane polecenia lub zmienna \n", line);
 }
 
-// --- Public Interface ---
+// --- Interfejs publiczny ---
 
 void cli_init() { var_list = NULL; }
 

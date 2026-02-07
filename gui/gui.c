@@ -1,7 +1,7 @@
 #include "gui.h"
 #include <stdio.h>
 
-void gui_message() { printf("Load gui module. \n"); }
+void gui_message() { printf("Załadowano moduł GUI.\n"); }
 
 void show_menu() {
 

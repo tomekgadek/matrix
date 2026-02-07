@@ -2,17 +2,17 @@
 #define CLI_H
 
 /**
- * Initializes the CLI module and its resources (e.g., variable list).
+ * Inicjalizuje moduł CLI i jego zasoby (np. listę zmiennych).
  */
 void cli_init();
 
 /**
- * Runs the main interactive CLI loop.
+ * Uruchamia główną interaktywną pętlę CLI.
  */
 void cli_run();
 
 /**
- * Cleans up CLI resources.
+ * Zwalnia zasoby modułu CLI.
  */
 void cli_cleanup();
 

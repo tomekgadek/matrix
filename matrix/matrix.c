@@ -238,7 +238,7 @@ void free_matrix(Matrix *mat) {
   free(mat);
 }
 
-void matrix_message() { printf("Load matrix module. \n"); }
+void matrix_message() { printf("Załadowano moduł macierzy.\n"); }
 
 double get_element(const Matrix *mat, unsigned row, unsigned col) {
   if (!mat || row <= 0 || col <= 0 || row > mat->rows || col > mat->cols) {
@@ -262,7 +262,7 @@ void save_matrix(const Matrix *mat, const char *filename) {
 
   FILE *f = fopen(path, "w");
   if (!f) {
-    perror("Error opening file for writing");
+    perror("Błąd podczas otwierania pliku do zapisu");
     return;
   }
   fprintf(f, "%u %u\n", mat->rows, mat->cols);
@@ -289,7 +289,7 @@ Matrix *load_matrix(const char *filename) {
 
   FILE *f = fopen(path, "r");
   if (!f) {
-    perror("Error opening file for reading");
+    perror("Błąd podczas otwierania pliku do odczytu");
     return NULL;
   }
   unsigned rows, cols;

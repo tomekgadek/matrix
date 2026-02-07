@@ -26,7 +26,7 @@ void add_variable(Variable **head, Variable *new_var) {
   Variable *curr = *head;
   while (curr->next) {
     if (strcmp(curr->label, new_var->label) == 0) {
-      // Replace existing variable's matrix
+      // Zastępujemy macierz istniejącej zmiennej
       free_matrix(curr->mtrx);
       curr->mtrx = new_var->mtrx;
       free(new_var);

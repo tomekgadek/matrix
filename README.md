@@ -62,7 +62,6 @@ make clean
 
 ### Brakujące funkcjonalności
 
-+ Dostęp do elementów macierzy: brak obsługi składni nazwa_m(x,y). Obecnie nie można pobrać ani wyświetlić konkretnej wartości komórki macierzy przez CLI.
 + Operatory złożone: brak obsługi operatorów +=, -= oraz *=. Obecnie obsługiwane są tylko proste przypisania typu C = A + B.
 + Syntaktyka losowa(nazwa_m): obecnie funkcja losowa działa tylko jako losowa(x,y) wewnątrz wyrażenia (np. A = losowa(3,3)). brak obsługi formy, w której podaje się nazwę istniejącej macierzy, aby wypełnić ją losowymi danymi.
 + Syntaktyka zerowa(nazwa_m): podobnie jak wyżej, obsługiwane jest tylko zerowa(x,y) jako generator nowej macierzy.
@@ -71,7 +70,6 @@ make clean
 
 Podsumowując, najważniejsze braki to:
 
-+ Dostęp do elementu macierzy (np. A(x,y))
 + Operatory złożone (np. +=, -=, *=)
 + Syntaktyka losowa(nazwa_m)
 + Syntaktyka zerowa(nazwa_m)
