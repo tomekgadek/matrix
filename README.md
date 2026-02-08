@@ -63,14 +63,10 @@ make clean
 ### Brakujące funkcjonalności
 
 + Operatory złożone: brak obsługi operatorów +=, -= oraz *=. Obecnie obsługiwane są tylko proste przypisania typu C = A + B.
-+ Syntaktyka losowa(nazwa_m): obecnie funkcja losowa działa tylko jako losowa(x,y) wewnątrz wyrażenia (np. A = losowa(3,3)). brak obsługi formy, w której podaje się nazwę istniejącej macierzy, aby wypełnić ją losowymi danymi.
-+ Syntaktyka zerowa(nazwa_m): podobnie jak wyżej, obsługiwane jest tylko zerowa(x,y) jako generator nowej macierzy.
 + Działania na tej samej macierzy (np. a = a * a): choć parser technicznie to obsłuży, obecna implementacja w `cli.c`
  tworzy kopię macierzy przy prostym przypisaniu, ale niekoniecznie optymalnie zarządza pamięcią w przypadku operacji A = A * B (może dojść do wycieku lub błędu, jeśli nie zwolnimy starej macierzy A przed przypisaniem nowej).
 
 Podsumowując, najważniejsze braki to:
 
 + Operatory złożone (np. +=, -=, *=)
-+ Syntaktyka losowa(nazwa_m)
-+ Syntaktyka zerowa(nazwa_m)
 + Działania na tej samej macierzy (np. a = a * a)

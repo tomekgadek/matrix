@@ -55,7 +55,9 @@ struct variable {
 ### CLI Commands (Polish)
 
 - `a = losowa(3,3)` - Create random matrix
+- `b = losowa(a)` - Create random matrix with same dimensions as `a`
 - `a = zerowa(3,3)` - Create zero matrix
+- `b = zerowa(a)` - Create zero matrix with same dimensions as `a`
 - `b = odwroc(a)` - Invert matrix
 - `c = a + b`, `c = a - b`, `c = a * b` - Arithmetic operations
 - `d = [1 2 3; 4 5 6]` - Matrix literal (semicolon separates rows)
@@ -71,7 +73,6 @@ struct variable {
 The following features documented in `demo/pomoc.txt` are NOT yet implemented:
 
 - Compound operators: `+=`, `-=`, `*=`
-- Function forms `losowa(nazwa_m)` and `zerowa(nazwa_m)` (only `losowa(rows,cols)` works)
 - Self-referential operations like `a = a * a` may have memory management issues
 
 ## Code Conventions

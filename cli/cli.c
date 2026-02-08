@@ -93,6 +93,19 @@ static Matrix *eval_expression(char *expr) {
     return create_random_matrix(r, c);
   }
 
+  // losowa(nazwa_m) - tworzy losową macierz o wymiarach istniejącej macierzy
+  char label[VARIABLE_LABEL_SIZE];
+  if (sscanf(expr, "losowa ( %[^)] )", label) == 1 ||
+      sscanf(expr, "losowa(%[^)])", label) == 1 ||
+      sscanf(expr, "losowa (%[^)])", label) == 1) {
+    trim(label);
+    Variable *v = find_variable(var_list, label);
+    if (v && v->mtrx) {
+      return create_random_matrix(v->mtrx->rows, v->mtrx->cols);
+    }
+    return NULL;
+  }
+
   if (sscanf(expr, "zerowa ( %u , %u )", &r, &c) == 2 ||
       sscanf(expr, "zerowa(%u,%u)", &r, &c) == 2 ||
       sscanf(expr, "zerowa (%u,%u)", &r, &c) == 2 ||
@@ -100,7 +113,18 @@ static Matrix *eval_expression(char *expr) {
     return create_zero_matrix(r, c);
   }
 
-  char label[VARIABLE_LABEL_SIZE];
+  // zerowa(nazwa_m) - tworzy zerową macierz o wymiarach istniejącej macierzy
+  if (sscanf(expr, "zerowa ( %[^)] )", label) == 1 ||
+      sscanf(expr, "zerowa(%[^)])", label) == 1 ||
+      sscanf(expr, "zerowa (%[^)])", label) == 1) {
+    trim(label);
+    Variable *v = find_variable(var_list, label);
+    if (v && v->mtrx) {
+      return create_zero_matrix(v->mtrx->rows, v->mtrx->cols);
+    }
+    return NULL;
+  }
+
   if (sscanf(expr, "odwroc ( %[^)] )", label) == 1 ||
       sscanf(expr, "odwroc(%[^)])", label) == 1 ||
       sscanf(expr, "odwroc (%[^)])", label) == 1) {
