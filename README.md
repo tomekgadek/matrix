@@ -1,72 +1,78 @@
 # matrix
 
-W ramach projektu należy:
+Kalkulator macierzowy w stylu MATLAB-a, zaimplementowany w języku C z polskojęzycznym interfejsem CLI. Użytkownicy mogą tworzyć, modyfikować i wykonywać operacje na macierzach za pomocą interaktywnej linii poleceń.
 
-1. Ograniczenie statycznie alokowanego kodu tam, gdzie jest to wskazane (czyli na pewno, przekazwyanie wszelkich macierzy do funkcji, alokacja macierzy o odpowiednim wymiarze zamiast marnowania miejsca na macierz o odpowiednio dużym rozmiarze etc.)
-2. Dodanie funkcjonalności listy dwukierunkowej struktur. Funkcjonalnośc zostanie użyta to przechowywania zmiennych.
-
-    Propozycja struktury:
-
-    ```c
-    struct matrix {
-        double **mtrx;
-        unsigned rows;
-        unsigned cols;
-    };
-
-    struct variable {
-        char label[10];         // etykieta zmiennej
-        struct matrix *mtrx;    // wskaźnik na zmienną
-        struct variable *next;  // wskaźnik na następny element listy
-        struct variable *prev;  // wskaźnik na poprzedni element listy
-    };
-    ```
-
-    Proponuję skalary wczytywać do tablicy o wymiarach 1x1 (notabene tak, jak to robi matlab) – znacznie mniej pisania kodu. Jeżeli ktoś bardzo chce, może użyc do tego celu unii, która encapsuluje strukturę macierz jak i zwykłą zmienną skalar. Następnie, zaimplementować funkcje dodające element (na początek, na koniec, oraz na i-tej pozycji), usuwające element(ostatni, początkowy oraz ity) oraz wyszukujące elementy zapisane na liście. Podobnie ma się rzecz w przypadku struktury macierz, warto napisać funkcje, które alokują macierz dla pola `**mtrx`, zwalniają po użyciu, itp.
-
-3. Dodanie prostych funkcjonalności związanych z operacjami macierzowymi: dodawanie macierzy, odejmowanie, mnożenie. Wyszukiwanie maksymalnego i minimalnego elementu. Wyznaczanie normy i śladu macierzy.
-4. Dodać zapisywanie do i wczytywanie zmiennych z pliku.
-5. Połączenie interfejsu z funkcjonalnościami w taki sposób, aby można było wykonywać proste operacje, wpisując odpowiednie polecenia w linii komend, jak poniżej:
-
-### Przykłady proponowanych komend (funkcji)
+## Kompilacja i uruchomienie
 
 ```bash
-a = losowa(3,3) // wygenerowanie macierzy losowej o rozmiarze 3x3 oraz zapisanie jej w zmiennej
-```
-
-Jeżeli zmienna nie istnieje, zostaje utworzona, w przeciwnym przypadku zostaje nadpisana.
-
-```bash
-b = odwroc(a) //odwrócenie (znanej już na tym etapie) macierzy a i zapisanie jej w zmiennej b
-c = a*b // pomnożenie macierzy a i b, zapisanie wyniku w c
-d=[2 3 4;5 6 7;8.0 2 2]; - dodanie nowej zmiennej d i wczytanie do niej tablicy.
-e=d-a // kolejna operacja
-```
-
-### Uruchomienie projektu
-
-Kompilacja
-```bash
+# Kompilacja projektu
 make
-```
 
-Uruchomienie
-```bash
+# Uruchomienie aplikacji
 ./macierze
-```
 
-Czyszczenie plików wynikowych
-```bash
+# Czyszczenie plików wynikowych
 make clean
 ```
 
-### Brakujące funkcjonalności
+## Architektura
 
-+ Operatory złożone: brak obsługi operatorów +=, -= oraz *=. Obecnie obsługiwane są tylko proste przypisania typu C = A + B.
-+ Działania na tej samej macierzy (np. a = a * a): choć parser technicznie to obsłuży, obecna implementacja w `cli.c`
- tworzy kopię macierzy przy prostym przypisaniu, ale niekoniecznie optymalnie zarządza pamięcią w przypadku operacji A = A * B (może dojść do wycieku lub błędu, jeśli nie zwolnimy starej macierzy A przed przypisaniem nowej).
+### Struktura modułów
 
-Podsumowując, najważniejsze braki to:
+- **cli/** - Interfejs linii poleceń i parser wyrażeń. Zarządza pętlą REPL, parsuje dane wejściowe użytkownika i przekazuje je do odpowiednich funkcji obsługi. Zawiera ewaluator wyrażeń (`eval_expression`), który obsługuje literały, wywołania funkcji i operacje binarne.
 
-+ Operatory złożone (np. +=, -=, *=)
-+ Działania na tej samej macierzy (np. a = a * a)
+- **matrix/** - Podstawowa struktura danych macierzy i operacje na niej. Zapewnia dynamiczną alokację pamięci dla macierzy, operacje arytmetyczne (dodawanie, odejmowanie, mnożenie), obliczanie wyznacznika (rozwinięcie Laplace'a), odwracanie macierzy oraz operacje I/O na plikach.
+
+- **variables/** - Lista dwukierunkowa do przechowywania zmiennych. Zmienne mapują etykiety tekstowe na wskaźniki do macierzy. Obsługuje automatyczne zastępowanie przy ponownym przypisaniu istniejących zmiennych.
+
+- **gui/** - Proste wyświetlanie menu (baner startowy i podpowiedź pomocy).
+
+- **help/** - Wczytuje i wyświetla tekst pomocy z plików.
+
+- **data/** - Katalog do trwałego przechowywania macierzy (pliki zapisywane/wczytywane przez polecenia `zapisz`/`wczytaj`).
+
+### Główne struktury danych
+
+```c
+struct matrix {
+    double **mtrx;   // dynamiczna tablica 2D wartości
+    unsigned rows;   // liczba wierszy
+    unsigned cols;   // liczba kolumn
+};
+
+struct variable {
+    char label[10];         // nazwa zmiennej
+    struct matrix *mtrx;    // wskaźnik na macierz
+    struct variable *next;  // lista dwukierunkowa
+    struct variable *prev;
+};
+```
+
+### Polecenia CLI
+
+- `a = losowa(3,3)` - Utworzenie losowej macierzy
+- `b = losowa(a)` - Utworzenie losowej macierzy o wymiarach takich jak `a`
+- `a = zerowa(3,3)` - Utworzenie macierzy zerowej
+- `b = zerowa(a)` - Utworzenie macierzy zerowej o wymiarach takich jak `a`
+- `b = odwroc(a)` - Odwrócenie macierzy
+- `c = a + b`, `c = a - b`, `c = a * b` - Operacje arytmetyczne
+- `d = [1 2 3; 4 5 6]` - Literał macierzy (średnik oddziela wiersze)
+- `a(1,2)` - Dostęp do elementu w wierszu 1, kolumnie 2 (indeksowanie od 1)
+- `wyzn(a)` - Obliczenie wyznacznika
+- `zapisz(a)` - Zapis macierzy do pliku `data/a`
+- `wczytaj(a)` - Wczytanie macierzy z pliku `data/a`
+- `pomoc` - Wyświetlenie pomocy
+- `exit` - Wyjście z programu
+
+## Znane ograniczenia
+
+Następujące funkcje udokumentowane w `demo/pomoc.txt` NIE są jeszcze zaimplementowane:
+
+- Operatory złożone: `+=`, `-=`, `*=`
+- Operacje samoreferencyjne typu `a = a * a` mogą powodować problemy z zarządzaniem pamięcią
+
+## Konwencje kodu
+
+- Własność pamięci: Funkcje zwracające `Matrix*` przekazują własność do wywołującego (wywołujący musi wywołać `free_matrix`)
+- Przechowywanie zmiennych: `add_variable` przejmuje własność wskaźnika do macierzy i zwolni istniejące macierze przy nadpisywaniu
+- Obsługa błędów: Funkcje zwracają `NULL` w przypadku niepowodzenia; wyznacznik zwraca `NAN` dla macierzy niekwadratowych
