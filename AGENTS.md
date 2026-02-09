@@ -73,7 +73,6 @@ struct variable {
 The following features documented in `demo/pomoc.txt` are NOT yet implemented:
 
 - Compound operators: `+=`, `-=`, `*=`
-- Self-referential operations like `a = a * a` may have memory management issues
 
 ## Code Conventions
 

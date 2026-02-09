@@ -69,7 +69,6 @@ struct variable {
 Następujące funkcje udokumentowane w `demo/pomoc.txt` NIE są jeszcze zaimplementowane:
 
 - Operatory złożone: `+=`, `-=`, `*=`
-- Operacje samoreferencyjne typu `a = a * a` mogą powodować problemy z zarządzaniem pamięcią
 
 ## Konwencje kodu
 

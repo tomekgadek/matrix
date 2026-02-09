@@ -133,6 +133,10 @@ static Matrix *eval_expression(char *expr) {
     return v ? invert_matrix(v->mtrx) : NULL;
   }
 
+  // Operacje binarne (np. a + b, a * a)
+  // UWAGA: Operacje samoreferencyjne (np. a = a * a) są bezpieczne, ponieważ:
+  // 1. Funkcje add/subtract/multiply_matrices tworzą NOWE macierze wynikowe
+  // 2. Stara macierz jest zwalniana dopiero w add_variable, PO utworzeniu nowej
   char op = 0;
   char *op_pos = strpbrk(expr, "+-*");
   if (op_pos) {
