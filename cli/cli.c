@@ -187,6 +187,67 @@ static void handle_assignment(char *label, char *expr) {
   }
 }
 
+static void handle_compound_assignment(char *label, char op, char *expr) {
+  trim(label);
+  trim(expr);
+
+  Variable *v = find_variable(var_list, label);
+  if (!v) {
+    printf("Zmienna '%s' nie istnieje\n", label);
+    return;
+  }
+
+  // Jeśli expr jest puste, używamy samej zmiennej (np. a += a -> a = a + a)
+  // W przeciwnym razie używamy podanego wyrażenia
+  Matrix *right_operand = NULL;
+  if (strlen(expr) == 0) {
+    // Przypadek: a += (bez prawej strony) - błąd
+    printf("Zle polecenie - brak prawej strony operatora\n");
+    return;
+  }
+
+  // Ewaluujemy prawą stronę wyrażenia
+  right_operand = eval_expression(expr);
+  if (!right_operand) {
+    // Może być to zmienna
+    Variable *v2 = find_variable(var_list, expr);
+    if (v2) {
+      // Tworzymy kopię macierzy
+      right_operand = create_matrix(v2->mtrx->rows, v2->mtrx->cols);
+      for (unsigned i = 0; i < right_operand->rows; i++) {
+        for (unsigned j = 0; j < right_operand->cols; j++) {
+          right_operand->mtrx[i][j] = v2->mtrx->mtrx[i][j];
+        }
+      }
+    } else {
+      printf("Zle polecenie - nieznane wyrazenie '%s'\n", expr);
+      return;
+    }
+  }
+
+  Matrix *result = NULL;
+  switch (op) {
+  case '+':
+    result = add_matrices(v->mtrx, right_operand);
+    break;
+  case '-':
+    result = subtract_matrices(v->mtrx, right_operand);
+    break;
+  case '*':
+    result = multiply_matrices(v->mtrx, right_operand);
+    break;
+  }
+
+  free_matrix(right_operand);
+
+  if (result) {
+    add_variable(&var_list, create_variable(label, result));
+    print_matrix(result);
+  } else {
+    printf("Zle polecenie - operacja nie powiodla sie\n");
+  }
+}
+
 static void handle_determinant(char *line) {
   char label[VARIABLE_LABEL_SIZE];
   if (sscanf(line, "wyzn ( %[^)] )", label) == 1 ||
@@ -273,6 +334,23 @@ static void execute_command(char *line) {
 
   if (strcmp(line, "pomoc") == 0) {
     load_help_file("demo/pomoc.txt");
+    return;
+  }
+
+  // Sprawdź operatory złożone (+=, -=, *=) przed prostym przypisaniem
+  char *compound_op = NULL;
+  char op_char = 0;
+  if ((compound_op = strstr(line, "+=")) != NULL) {
+    op_char = '+';
+  } else if ((compound_op = strstr(line, "-=")) != NULL) {
+    op_char = '-';
+  } else if ((compound_op = strstr(line, "*=")) != NULL) {
+    op_char = '*';
+  }
+
+  if (compound_op) {
+    *compound_op = '\0';
+    handle_compound_assignment(line, op_char, compound_op + 2);
     return;
   }
 

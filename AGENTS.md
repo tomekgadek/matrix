@@ -60,6 +60,7 @@ struct variable {
 - `b = zerowa(a)` - Create zero matrix with same dimensions as `a`
 - `b = odwroc(a)` - Invert matrix
 - `c = a + b`, `c = a - b`, `c = a * b` - Arithmetic operations
+- `a += b`, `a -= b`, `a *= b` - Compound operators (e.g. `a *= a`)
 - `d = [1 2 3; 4 5 6]` - Matrix literal (semicolon separates rows)
 - `a(1,2)` - Access element at row 1, column 2 (1-indexed)
 - `wyzn(a)` - Calculate determinant
@@ -67,12 +68,6 @@ struct variable {
 - `wczytaj(a)` - Load matrix from `data/a`
 - `pomoc` - Show help
 - `exit` - Quit
-
-## Known Limitations
-
-The following features documented in `demo/pomoc.txt` are NOT yet implemented:
-
-- Compound operators: `+=`, `-=`, `*=`
 
 ## Code Conventions
 

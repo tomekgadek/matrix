@@ -2,6 +2,8 @@
 
 Kalkulator macierzowy w stylu MATLAB-a, zaimplementowany w języku C z polskojęzycznym interfejsem CLI. Użytkownicy mogą tworzyć, modyfikować i wykonywać operacje na macierzach za pomocą interaktywnej linii poleceń.
 
+![terminal](./img/terminal.png)
+
 ## Kompilacja i uruchomienie
 
 ```bash
@@ -56,6 +58,7 @@ struct variable {
 - `b = zerowa(a)` - Utworzenie macierzy zerowej o wymiarach takich jak `a`
 - `b = odwroc(a)` - Odwrócenie macierzy
 - `c = a + b`, `c = a - b`, `c = a * b` - Operacje arytmetyczne
+- `a += b`, `a -= b`, `a *= b` - Operatory złożone (np. `a *= a`)
 - `d = [1 2 3; 4 5 6]` - Literał macierzy (średnik oddziela wiersze)
 - `a(1,2)` - Dostęp do elementu w wierszu 1, kolumnie 2 (indeksowanie od 1)
 - `wyzn(a)` - Obliczenie wyznacznika
@@ -63,12 +66,6 @@ struct variable {
 - `wczytaj(a)` - Wczytanie macierzy z pliku `data/a`
 - `pomoc` - Wyświetlenie pomocy
 - `exit` - Wyjście z programu
-
-## Znane ograniczenia
-
-Następujące funkcje udokumentowane w `demo/pomoc.txt` NIE są jeszcze zaimplementowane:
-
-- Operatory złożone: `+=`, `-=`, `*=`
 
 ## Konwencje kodu
 
